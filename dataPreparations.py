@@ -82,35 +82,3 @@ def createTrainingSet(main_path, gloveVec, dim):
     ts_y = test[:, dim]
     # return train_x, train_y, test_x, test_y
     return np.matrix(tr_x), np.matrix(tr_y).T, np.matrix(ts_x), np.matrix(ts_y).T
-
-
-"""
-# this parts won't be included in the final version
-#
-#
-if __name__ == "__main__":
-#    mainPath = os.path.dirname(os.getcwd())
-    mainPath = os.getcwd()
-    trainMainPath = os.path.join(mainPath, "review_polarity", "test_train")
-
-    tagDic = tagList(trainMainPath)
-    train, test = createTrainingSet(trainMainPath, "50")
-#    random.shuffle(train)
-
-"""
-
-"""
-if __name__ == "__main__":
-    textPath = "review_polarity/txt_sentoken/pos/cv001_18431.txt"
-    f = open(textPath, "r")
-    text = f.read().decode("utf8")
-    f.close()
-    print docToGloveVec(text, "50")
-"""
-
-"""
-if __name__ == "__main__":
-    path = "review_polarity/txt_sentoken"
-    print createDocMatrix(path)
-    #{'neg': 0, 'pos': 1}
-"""

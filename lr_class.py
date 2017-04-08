@@ -4,7 +4,8 @@ import scipy.optimize as optimizer
 import time
 import gloveOpr as my_glove
 import dataPreparations as dp
-
+import pickle
+import os
 
 class LogisticRegression:
 
@@ -79,3 +80,27 @@ class LogisticRegression:
         print " - "*10 + "Program Completed ! " + " - "*10
         print 'Correctly predicted = {0} of '.format(accuracy) + '\
            %d test items ' % (nLines)
+        return accuracy
+
+    def learningCurve(self):
+        sizeAcc = {}
+        (m, n) = self.Train_X.shape
+        # create a list of training size according to initial-
+        # -split of training data
+        # for 1600 of training data
+        # 200, 400, 800, 1200, 1600
+        t_sizes = [int(m/8), int(m/4), int(m/2), int(m*3/4), m]
+        thetas = np.zeros(n)
+        # find theatas for each size of training set
+        for t_size in t_sizes:
+            trained = optimizer.fmin_tnc(func=self.costFunction,
+                                         x0=thetas,
+                                         fprime=self.gradient,
+                                         args=(self.Train_X[0:t_size],
+                                               self.Train_y[0:t_size]),
+                                         disp=False)
+            theta_min = np.matrix(trained[0])
+            # key, value
+            # (training_size, theatas [])
+            sizeAcc[t_size] = self.test(theta_min)
+        return sizeAcc
